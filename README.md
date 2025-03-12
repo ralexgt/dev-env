@@ -12,6 +12,5 @@ upon in the future.
 3. execute ./run and ./dev-env 
 4. You should be ready to go with Neovim and tmux
 
-! I useason for Neovim lsps and any terminal is going to get the job done.
 ! Check that every script has right the permissions.
-
+! It is intended to work propelry with bash. For zsh it needs some tweaks.
