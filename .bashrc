@@ -41,7 +41,7 @@ export PATH="$HOME/Go/bin:$PATH"
 export PATH=$PATH:$(go env GOPATH)/bin
 
 # node 
-export PATH="$PATH:/home/rares/.nvm/versions/node/v22.11.0"
+export PATH="$PATH:$HOME/.nvm/versions/node/v22.11.0"
 
 # flutter
 export PATH="$HOME/development/flutter/bin:$PATH"
