@@ -24,8 +24,15 @@ alias grep='grep --color=auto'
 # Enable colored output for common commands
 alias ls='ls --color=auto'
 
-# Brighter Bash prompt (Green user@host, Blue directory)
-PS1='\[\e[1;32m\]\u@\h \[\e[1;34m\]\w\[\e[0m\]$ '
+# How to show pwd
+parse_git_branch() {
+    branch=$(git branch 2>/dev/null | grep '*' | sed 's/* //')
+    if [ -n "$branch" ]; then
+        echo "\[\e[1;31m\]~git \[\e[1;33m\][$branch]"
+    fi
+}
+
+PROMPT_COMMAND='PS1="\[\e[1;32m\]\u@\h \[\e[1;34m\]\w $(parse_git_branch)\[\e[0m\]$ "'
 
 # Fix tmux colors (if using tmux)
 if [ -n "$TMUX" ]; then
