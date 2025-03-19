@@ -356,6 +356,7 @@ require("lazy").setup({
 					},
 				},
 			})
+			-- TS
 			lspconfig.ts_ls.setup({
 				settings = {
 					typescript = {
@@ -369,6 +370,42 @@ require("lazy").setup({
 							includeInlayParameterNameHints = "all",
 							includeInlayEnumMemberValueHints = true,
 						},
+					},
+				},
+			})
+			-- HTML
+			lspconfig.html.setup({
+				filetypes = { "html", "templ" }, -- Add "templ" if using Go Templ
+				settings = {
+					html = {
+						validate = true,
+						includeInlayParameterNameHints = "all",
+						includeInlayEnumMemberValueHints = true,
+						hover = true,
+						autoClosingTags = true,
+						completion = true,
+						suggest = {
+							html5 = true,
+							htmx = true, -- Enable HTMX
+						},
+					},
+				},
+			})
+			-- Lua
+			lspconfig.lua_ls.setup({
+				settings = {
+					Lua = {
+						runtime = {
+							version = "LuaJIT", -- Use LuaJIT (Neovim's Lua runtime)
+						},
+						diagnostics = {
+							globals = { "vim" }, -- Prevent warnings for `vim` global
+						},
+						workspace = {
+							library = vim.api.nvim_get_runtime_file("", true), -- Recognize Neovim's Lua runtime
+							checkThirdParty = false, -- Disable third-party checks (optional)
+						},
+						telemetry = { enable = false }, -- Disable telemetry for privacy
 					},
 				},
 			})
@@ -569,6 +606,8 @@ require("lazy").setup({
 				ensure_installed = {
 					"gopls",
 					"ts_ls",
+					"html",
+					"lua_ls",
 				}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
 				automatic_installation = false,
 				handlers = {
