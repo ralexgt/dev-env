@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+pkill nm-applet; sleep 1; nm-applet & disown
