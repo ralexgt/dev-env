@@ -2,6 +2,9 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+-- cursor block in all modes
+-- vim.opt.guicursor = ""
+
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
@@ -298,6 +301,7 @@ require("lazy").setup({
 		config = function()
 			local lspconfig = require("lspconfig")
 
+			-- NOTE: LSPs setup
 			lspconfig.clangd.setup({
 				-- Command-line options for clangd
 				cmd = { "clangd", "--background-index", "--clang-tidy" },
@@ -313,7 +317,6 @@ require("lazy").setup({
 				},
 			})
 
-			-- NOTE: LSPs setup
 			-- Ensure gopls is set up properly
 			lspconfig.gopls.setup({
 				settings = {
@@ -322,6 +325,36 @@ require("lazy").setup({
 						analyses = {
 							unusedparams = true,
 							shadow = true,
+						},
+					},
+				},
+			})
+
+			-- JSON language server setup
+			lspconfig.jsonls.setup({
+				settings = {
+					json = {
+						-- enable validation & diagnostics
+						validate = { enable = true },
+						-- enable formatting on save (if you hook up null-ls or use built-in)
+						format = { enable = true },
+					},
+				},
+			})
+
+			-- Ensure pyright is set up properly
+			lspconfig.pyright.setup({
+				settings = {
+					python = {
+						analysis = {
+							-- Possible values: off, basic, strict
+							typeCheckingMode = "basic",
+							-- Whether to use extra conservative type checking for library code
+							useLibraryCodeForTypes = true,
+							-- Report diagnostics for all files in the workspace
+							diagnosticMode = "workspace",
+							-- Automatically provide import completions
+							autoImportCompletions = true,
 						},
 					},
 				},

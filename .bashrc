@@ -47,7 +47,7 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # export PATH="$HOME/Go/bin:$PATH"
 # export PATH=$PATH:$(go env GOPATH)/bin
 export PATH=$PATH:/usr/local/go/bin
-
+export PATH="$PATH:$HOME/go/bin"
 # node 
 export PATH="$PATH:$HOME/.nvm/versions/node/v22.11.0"
 
