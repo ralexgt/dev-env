@@ -2,9 +2,6 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- cursor block in all modes
--- vim.opt.guicursor = ""
-
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
@@ -288,8 +285,8 @@ require("lazy").setup({
 			-- Automatically install LSPs and related tools to stdpath for Neovim
 			-- Mason must be loaded before its dependents so we need to set it up here.
 			-- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
-			{ "williamboman/mason.nvim", opts = {} },
-			"williamboman/mason-lspconfig.nvim",
+			{ "mason-org/mason.nvim", opts = {} },
+			"mason-org/mason-lspconfig.nvim",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
 
 			-- Useful status updates for LSP.
@@ -301,7 +298,6 @@ require("lazy").setup({
 		config = function()
 			local lspconfig = require("lspconfig")
 
-			-- NOTE: LSPs setup
 			lspconfig.clangd.setup({
 				-- Command-line options for clangd
 				cmd = { "clangd", "--background-index", "--clang-tidy" },
@@ -317,6 +313,7 @@ require("lazy").setup({
 				},
 			})
 
+			-- NOTE: LSPs setup
 			-- Ensure gopls is set up properly
 			lspconfig.gopls.setup({
 				settings = {
@@ -325,36 +322,6 @@ require("lazy").setup({
 						analyses = {
 							unusedparams = true,
 							shadow = true,
-						},
-					},
-				},
-			})
-
-			-- JSON language server setup
-			lspconfig.jsonls.setup({
-				settings = {
-					json = {
-						-- enable validation & diagnostics
-						validate = { enable = true },
-						-- enable formatting on save (if you hook up null-ls or use built-in)
-						format = { enable = true },
-					},
-				},
-			})
-
-			-- Ensure pyright is set up properly
-			lspconfig.pyright.setup({
-				settings = {
-					python = {
-						analysis = {
-							-- Possible values: off, basic, strict
-							typeCheckingMode = "basic",
-							-- Whether to use extra conservative type checking for library code
-							useLibraryCodeForTypes = true,
-							-- Report diagnostics for all files in the workspace
-							diagnosticMode = "workspace",
-							-- Automatically provide import completions
-							autoImportCompletions = true,
 						},
 					},
 				},
@@ -579,13 +546,9 @@ require("lazy").setup({
 					},
 				},
 			}
-
+			require("mason").setup()
 			local ensure_installed = vim.tbl_keys(servers or {})
-			vim.list_extend(ensure_installed, {
-				"stylua", -- Used to format Lua code
-			})
-			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
-
+			vim.list_extend(ensure_installed, {})
 			-- NOTE: LSPs that are ensured to be installed
 			require("mason-lspconfig").setup({
 				ensure_installed = {
@@ -596,6 +559,7 @@ require("lazy").setup({
 					"lua_ls",
 				}, -- explicitly set to an empty table
 				automatic_installation = false,
+				automatic_enable = false,
 				handlers = {
 					function(server_name)
 						local server = servers[server_name] or {}
